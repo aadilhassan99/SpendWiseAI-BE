@@ -38,6 +38,13 @@ export class AccountsService {
     return this.accountsRepository.save(account);
   }
 
+  getOwnedAccount(
+    userId: string,
+    accountId: string,
+  ): Promise<FinancialAccount> {
+    return this.findOneForUser(userId, accountId);
+  }
+
   async remove(userId: string, accountId: string): Promise<void> {
     const result = await this.accountsRepository.delete({
       id: accountId,

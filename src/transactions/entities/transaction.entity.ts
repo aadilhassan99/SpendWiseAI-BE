@@ -33,6 +33,10 @@ export enum TransactionStatus {
 @Index('IDX_transactions_user_date', ['userId', 'transactionDate'])
 @Index('IDX_transactions_account_date', ['accountId', 'transactionDate'])
 @Index('IDX_transactions_user_status', ['userId', 'status'])
+@Index('IDX_transactions_user_account', ['userId', 'accountId'])
+@Index('IDX_transactions_user_category', ['userId', 'categoryId'])
+@Index('IDX_transactions_user_currency', ['userId', 'currency'])
+@Index('IDX_transactions_user_type', ['userId', 'type'])
 export class Transaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;

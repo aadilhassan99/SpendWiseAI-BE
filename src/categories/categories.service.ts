@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { IsNull, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -26,6 +30,30 @@ export class CategoriesService {
     return this.categoriesRepository.save(
       this.categoriesRepository.create({ ...createCategoryDto, userId }),
     );
+  }
+
+  async getAccessibleCategory(
+    userId: string,
+    categoryId: string,
+  ): Promise<Category> {
+    const category = await this.categoriesRepository.findOneBy({
+      id: categoryId,
+    });
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+    if (category.userId !== null && category.userId !== userId) {
+      throw new NotFoundException('Category not found');
+    }
+    return category;
+  }
+
+  assertCategoryTypeMatches(category: Category, transactionType: string): void {
+    if (String(category.type) !== transactionType) {
+      throw new BadRequestException(
+        'Category type must match the transaction type',
+      );
+    }
   }
 
   async update(
