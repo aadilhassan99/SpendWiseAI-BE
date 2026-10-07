@@ -35,10 +35,6 @@ export default () => ({
   nodeEnv: process.env.NODE_ENV ?? 'development',
   port: parseInt(process.env.PORT ?? String(DEFAULT_PORT), 10),
   corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
-  auth: {
-    jwtSecret: process.env.JWT_SECRET,
-    jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
-  },
   database: {
     url: resolveDatabaseUrl(),
     migrationsRun: process.env.DATABASE_MIGRATIONS_RUN === 'true',

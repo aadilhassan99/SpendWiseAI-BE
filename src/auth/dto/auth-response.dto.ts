@@ -4,6 +4,9 @@ export class AuthenticatedUserDto {
   @ApiProperty({ format: 'uuid' })
   id: string;
 
+  @ApiProperty({ example: 'John Doe' })
+  name: string;
+
   @ApiProperty({ example: 'user@example.com' })
   email: string;
 
