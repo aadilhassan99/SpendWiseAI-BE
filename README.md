@@ -44,10 +44,6 @@ NestJS REST API for the SpendWise AI personal finance analyzer (Milestone 1 foun
 
 The server listens on `PORT` from `.env` (default `3001`). API routes are prefixed with `/api/v1`.
 
-### API documentation
-
-Swagger UI is available at `http://localhost:3001/api/v1/docs`. Register or log in from the UI to set the session cookie, then use the protected endpoints directly.
-
 ### Health check
 
 ```bash

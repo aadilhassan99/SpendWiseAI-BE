@@ -35,6 +35,7 @@ const DEFAULT_CATEGORIES: ReadonlyArray<{ name: string; type: CategoryType }> =
 
 export interface AuthenticatedUser {
   id: string;
+  name: string;
   email: string;
   createdAt: Date;
   updatedAt: Date;
@@ -61,7 +62,7 @@ export class AuthService {
       const user = await this.dataSource.transaction(async (manager) => {
         const userRepository = manager.getRepository(User);
         const categoryRepository = manager.getRepository(Category);
-        const newUser = userRepository.create({ email, passwordHash });
+        const newUser = userRepository.create({ email, name: registerDto.name, passwordHash });
         const savedUser = await userRepository.save(newUser);
 
         await categoryRepository.save(
@@ -95,6 +96,7 @@ export class AuthService {
       where: { email },
       select: {
         id: true,
+        name: true,
         email: true,
         passwordHash: true,
         createdAt: true,
@@ -152,6 +154,7 @@ export class AuthService {
   private toAuthenticatedUser(user: User): AuthenticatedUser {
     return {
       id: user.id,
+      name: user.name,
       email: user.email,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,

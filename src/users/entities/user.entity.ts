@@ -20,6 +20,9 @@ export class User {
   @Column({ type: 'varchar', length: 320 })
   email: string;
 
+  @Column({ type: 'varchar', length: 255 })
+  name: string;
+
   @Column({ name: 'password_hash', type: 'varchar', select: false })
   passwordHash: string;
 

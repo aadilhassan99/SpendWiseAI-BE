@@ -6,7 +6,6 @@ import {
   IsOptional,
   IsString,
   Max,
-  MinLength,
   Min,
   validateSync,
 } from 'class-validator';
@@ -29,14 +28,6 @@ class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   CORS_ORIGIN: string = 'http://localhost:3000';
-
-  @IsString()
-  @MinLength(32)
-  JWT_SECRET: string;
-
-  @IsOptional()
-  @IsString()
-  JWT_EXPIRES_IN: string = '7d';
 
   @IsOptional()
   @IsString()
