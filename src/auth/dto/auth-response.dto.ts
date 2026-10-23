@@ -7,6 +7,9 @@ export class AuthenticatedUserDto {
   @ApiProperty({ example: 'user@example.com' })
   email: string;
 
+  @ApiProperty({ example: 'XYZ ABC' })
+  name: string;
+
   @ApiProperty({ format: 'date-time' })
   createdAt: Date;
 
