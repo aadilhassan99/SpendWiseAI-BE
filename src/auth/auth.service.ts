@@ -36,6 +36,7 @@ const DEFAULT_CATEGORIES: ReadonlyArray<{ name: string; type: CategoryType }> =
 export interface AuthenticatedUser {
   id: string;
   email: string;
+  name: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -54,6 +55,7 @@ export class AuthService {
   async register(
     registerDto: RegisterDto,
   ): Promise<{ user: AuthenticatedUser; accessToken: string }> {
+    const name = this.normalizeName(registerDto.name);
     const email = this.normalizeEmail(registerDto.email);
     const passwordHash = await hash(registerDto.password, PASSWORD_HASH_ROUNDS);
 
@@ -61,7 +63,7 @@ export class AuthService {
       const user = await this.dataSource.transaction(async (manager) => {
         const userRepository = manager.getRepository(User);
         const categoryRepository = manager.getRepository(Category);
-        const newUser = userRepository.create({ email, passwordHash });
+        const newUser = userRepository.create({ name, email, passwordHash });
         const savedUser = await userRepository.save(newUser);
 
         await categoryRepository.save(
@@ -95,6 +97,7 @@ export class AuthService {
       where: { email },
       select: {
         id: true,
+        name: true,
         email: true,
         passwordHash: true,
         createdAt: true,
@@ -149,10 +152,15 @@ export class AuthService {
     return email.trim().toLowerCase();
   }
 
+  private normalizeName(name: string): string {
+    return name.trim();
+  }
+
   private toAuthenticatedUser(user: User): AuthenticatedUser {
     return {
       id: user.id,
       email: user.email,
+      name: user.name,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
